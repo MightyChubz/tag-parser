@@ -1,5 +1,7 @@
 # This is a list of generic tags
 
+orphan_tag
+
 [Generic] # Test
 red_hair female dress
 dancing fire smile
