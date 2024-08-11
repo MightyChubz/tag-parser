@@ -1,18 +1,95 @@
 use std::path::Path;
 
+/// A group is a collection of tags that are related to each other.
+///
+/// # Example
+///
+/// ```
+/// use tag_parser::Group;
+///
+/// let group = Group {
+///    name: "Generic".to_string(),
+///    tags: vec!["red".to_string(), "hair".to_string()],
+/// };
+///
+/// assert_eq!(group.name, "Generic");
+/// assert_eq!(group.tags.len(), 2);
+/// assert_eq!(group.tags[0], "red");
+/// assert_eq!(group.tags[1], "hair");
+/// ```
 #[derive(Debug)]
 pub struct Group {
+    /// The name of the group.
     pub name: String,
+    /// A list of tags that belong to the group.
     pub tags: Vec<String>,
 }
 
+/// A parser that reads a file and extracts groups of tags.
+///
+/// The file should be in the following format:
+/// ```text
+/// [Group1]
+/// tag1 tag2 tag3
+/// tag4 tag5
+///
+/// [Group2]
+/// tag6 tag7
+/// ```
+///
+/// The parser will extract the groups and tags from the file.
+///
+/// # Example
+///
+/// ```no_run
+/// use tag_parser::TagParser;
+/// use std::path::Path;
+/// let path = Path::new("tags.txt");
+/// let mut parser = TagParser::new(path);
+/// parser.parse();
+/// let groups = parser.groups();
+/// ```
+///
+/// The `groups` variable will contain a list of groups with their respective tags.
+///
+/// The `parse` method must be called before accessing the groups.
+///
+/// The `TagParser` struct also implements the `From<&str>` and `From<String>` traits.
+///
+/// # Example
+///
+/// ```
+/// use tag_parser::TagParser;
+/// let data = include_str!("test_data.txt");
+/// let parser = TagParser::from(data);
+/// let groups = parser.groups();
+/// ```
 #[derive(Debug)]
 pub struct TagParser {
+    /// The data read from the file.
     data: String,
+    /// A list of groups extracted from the data.
     groups: Vec<Group>,
 }
 
 impl TagParser {
+    /// Creates a new `TagParser` instance from a file.
+    ///
+    /// # Arguments
+    ///
+    /// * `path`: A path to the file containing the tags.
+    ///
+    /// returns: A new `TagParser` instance.
+    ///
+    /// # Examples
+    ///
+    /// ```no_run
+    /// use tag_parser::TagParser;
+    /// use std::path::Path;
+    ///
+    /// let path = Path::new("tags.txt");
+    /// let parser = TagParser::new(path);
+    /// ```
     pub fn new(path: &Path) -> Self {
         let data = std::fs::read_to_string(path).unwrap();
         Self {
@@ -21,10 +98,24 @@ impl TagParser {
         }
     }
 
+    /// Returns a reference to the list of groups.
     pub fn groups(&self) -> &Vec<Group> {
         &self.groups
     }
 
+    /// Parses the data and extracts the groups and tags.
+    ///
+    /// The groups and tags are stored in the `groups` field.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use tag_parser::TagParser;
+    /// let data = include_str!("test_data.txt");
+    /// let mut parser = TagParser::from(data);
+    /// parser.parse();
+    /// let groups = parser.groups();
+    /// ```
     pub fn parse(&mut self) {
         let mut group = Group {
             name: String::new(),
@@ -61,6 +152,22 @@ impl TagParser {
 }
 
 impl From<&str> for TagParser {
+    /// Creates a new `TagParser` instance from a string.
+    ///
+    /// # Arguments
+    ///
+    /// * `data`: A string containing the tags.
+    ///
+    /// returns: A new `TagParser` instance.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use tag_parser::TagParser;
+    /// let data = include_str!("test_data.txt");
+    /// let parser = TagParser::from(data);
+    /// let groups = parser.groups();
+    /// ```
     fn from(data: &str) -> Self {
         let mut parser = Self {
             data: data.to_string(),
@@ -73,6 +180,22 @@ impl From<&str> for TagParser {
 }
 
 impl From<String> for TagParser {
+    /// Creates a new `TagParser` instance from a string.
+    ///
+    /// # Arguments
+    ///
+    /// * `data`: A string containing the tags.
+    ///
+    /// returns: A new `TagParser` instance.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use tag_parser::TagParser;
+    /// let data = include_str!("test_data.txt");
+    /// let parser = TagParser::from(data);
+    /// let groups = parser.groups();
+    /// ```
     fn from(data: String) -> Self {
         Self::from(data.as_str())
     }
