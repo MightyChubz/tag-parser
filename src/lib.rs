@@ -47,6 +47,8 @@ impl TagParser {
 
                 let line = line.split('#').next().unwrap().trim();
                 group.name = line[1..line.len() - 1].trim().to_string();
+            } else if !line.starts_with('[') && group.name.is_empty() {
+                continue; // Skip orphan tags
             } else {
                 group
                     .tags
