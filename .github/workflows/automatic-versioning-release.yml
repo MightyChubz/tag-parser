@@ -1,0 +1,25 @@
+# This will be triggered on every push to the main branch
+# It will ensure that every other test has passed before running
+# After that, it will make a new release with the new version
+# The version will be automatically updated by the action
+# The action will also create a new tag with the new version
+
+name: Automatic Versioning Release
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v4
+        - name: Build
+          run: cargo build --verbose
+        - name: Run tests
+          run: cargo test --verbose
+        - name: Release
+          uses: softprops/action-gh-release@v2
