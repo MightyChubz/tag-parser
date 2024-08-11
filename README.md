@@ -21,7 +21,7 @@ Testing_tag -negated_tag
 The parser is fairly simple, and maintains an easy-to-understand approach. The algorithm for parsing the data is shown
 in this flowchart:
 
-![Parser Flowchart](flowcharts/parser_chart.png)
+![Parser Flowchart](flowcharts/parser_flowchart.png)
 
 # Usage
 
