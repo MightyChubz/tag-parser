@@ -22,6 +22,6 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v$(date +'%m-%d-%y')-${GITHUB_SHA::8}
+          tag_name: v$(date +'%m-%d-%y')-${GITHUB_SHA::8}-${{ github.run_number }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
