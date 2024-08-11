@@ -45,6 +45,7 @@ impl TagParser {
                     };
                 }
 
+                let line = line.split('#').next().unwrap().trim();
                 group.name = line[1..line.len() - 1].trim().to_string();
             } else {
                 group
@@ -84,9 +85,13 @@ mod tests {
         let data = include_str!("test_data.txt");
         let parser = TagParser::from(data);
         let groups = parser.groups();
-        assert_eq!(groups.len(), 2);
+        assert_eq!(groups.len(), 3);
         assert_eq!(groups[0].name, "Generic");
         assert_eq!(groups[0].tags.len(), 3);
+        assert_eq!(groups[1].name, "IDs");
+        assert_eq!(groups[1].tags.len(), 1);
+        assert_eq!(groups[2].name, "EmptyGroup");
+        assert_eq!(groups[2].tags.len(), 0);
     }
 
     #[test]
@@ -94,7 +99,7 @@ mod tests {
         let data = include_str!("test_data.txt");
         let parser = TagParser::from(data);
         let groups = parser.groups();
-        assert_eq!(groups.len(), 2);
+        assert_eq!(groups.len(), 3);
         assert_eq!(groups[0].name, "Generic");
         assert_eq!(groups[0].tags.len(), 3);
         assert_eq!(groups[1].name, "IDs");
@@ -106,7 +111,7 @@ mod tests {
         let data = include_str!("test_data.txt");
         let parser = TagParser::from(data);
         let groups = parser.groups();
-        assert_eq!(groups.len(), 2);
+        assert_eq!(groups.len(), 3);
         assert_eq!(groups[0].name, "Generic");
         assert_eq!(groups[0].tags.len(), 3);
 
