@@ -1,0 +1,9 @@
+# This is a list of generic tags
+[Generic]
+red_hair female dress
+dancing fire smile
+進撃の巨人
+
+# This is an ID set
+[IDs ]
+102349 # Collection of pictures from a wedding
